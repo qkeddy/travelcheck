@@ -20,6 +20,8 @@ function refreshCovidData() {
  * << Quin to build out and document >>
  */
 function refreshTravelSafetyData() {
+    console.log("Travel safety data fetched");
+
     
 }
 
@@ -31,6 +33,7 @@ function refreshTravelSafetyData() {
  */
 function updatePage() {
 
+    console.log("Page updated");
 }
 
 
@@ -43,7 +46,7 @@ function init() {
     refreshCovidData();
 
     // Pull the latest travel safety data
-    refreshCovidData();
+    refreshTravelSafetyData();
 
     // Update the page
     updatePage();
