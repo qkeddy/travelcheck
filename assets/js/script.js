@@ -1,6 +1,5 @@
 // Find global HTML elements on page
 
-
 // Global variables declaration
 
 
@@ -8,12 +7,7 @@
  * ! COVID-19 data query
  * << Carol to build out and document >>
  */
-function refreshCovidData() {
-    
-}
-
-
-
+function refreshCovidData() {}
 
 /**
  * ! Travel safety data query
@@ -21,22 +15,15 @@ function refreshCovidData() {
  */
 function refreshTravelSafetyData() {
     console.log("Travel safety data fetched");
-
-    
 }
-
-
 
 /**
  * ! Update page
  * << Update page with blended data >>
  */
 function updatePage() {
-
     console.log("Page updated");
 }
-
-
 
 /**
  * ! Initialization function
