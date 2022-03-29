@@ -7,12 +7,52 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="./assets/css/style.css">
 </head>
 
 <body>
-    <h1>TravelCheck Home Page</h1>
+    <header>
+        <h1>TravelCheck Home Page</h1>
+    </header>
+
+    <main>
+        <aside class="col-3">
+            <form class="mdc-card mdc-card--outlined ">
+                <input id="" type="text" />
+                <button class="mdc-button mdc-button--raised" type="sumbit">
+                    <span class="mdc-button__label">Submit</span>
+                </button>
+            </form>
+            <ul class="mdc-list mdc-card">
+                <!-- Search History -->
+                <li class="mdc-list-item"> 
+                    <span class="mdc-list-item__ripple"></span> 
+                    <span class="mdc-list-item__text">A</span>
+                </li>
+                <li class="mdc-list-item"> 
+                    <span class="mdc-list-item__ripple"></span> 
+                    <span class="mdc-list-item__text">B</span>
+                </li>
+            </ul>
+        </aside>
+        <section class="flex-column col-9">
+            <h2>Search Results:</h2>
+
+            <h3>
+                <!-- Country Name -->
+            </h3>
+            <img> <!-- Flag Image -->
+            <p>
+                <!-- Covid Cases per million -->
+            </p>
+            <p>
+                <!-- Number of Travel Advisories -->
+            </p>
+        </section>
+    </main>
+
     <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
     <script src="./assets/js/script.js"></script>
 </body>
