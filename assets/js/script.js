@@ -1,9 +1,8 @@
 // Find global HTML elements on page
 
-
 /**
  * TODO - Convert this to a click button operation
- * Function to add a country to the countryStats local storage
+ * ! Function to add a country to the countryStats local storage
  */
 function addCountry(countryIso2) {
     // Fetch existing counties and store in a local object
@@ -16,7 +15,6 @@ function addCountry(countryIso2) {
 
     // Check to see if the country is already stored. If not, add the country to the list.
     countryExists = false;
-
     for (let i = 0; i < countryStats.length; i++) {
         if (countryStats[i].iso2 === countryIso2) {
             // Country exists in local storage
@@ -47,10 +45,8 @@ function addCountry(countryIso2) {
 }
 
 /**
- * ! COVID-19 data query
- * << Carol to build out and document >>
+ * ! Fetch COVID-19 data from disease.sh service and update the object countryStats
  */
-
 function refreshCovidData(countryStats) {
     var casesUrl = "https://disease.sh/v3/covid-19/countries";
 
@@ -59,11 +55,11 @@ function refreshCovidData(countryStats) {
             return response.json();
         })
         .then(function (data) {
-            console.log(data);
+            // console.log(data);
             for (i = 0; i < countryStats.length; i++) {
                 for (j = 0; j < data.length; j++) {
                     if (countryStats[i].iso2 == data[j].countryInfo.iso2) {
-                        if ((countryStats[i].flag === "")) {
+                        if (countryStats[i].flag === "") {
                             countryStats[i].flag = data[j].countryInfo.flag;
                         }
                         countryStats[i].name = data[j].country;
@@ -78,14 +74,14 @@ function refreshCovidData(countryStats) {
             }
         })
         .then(function () {
+            // Write results to local storage
             writeLocalStorage(countryStats);
         });
     //return countryStat;
 }
 
 /**
- * ! Travel safety data query
- * Function to be called once upon page load to cache data to local storage
+ * ! Function to be called once upon page load to cache data to local storage
  */
 function refreshTravelSafetyData() {
     // Generate URL to get country travel safety data
@@ -94,10 +90,10 @@ function refreshTravelSafetyData() {
     // Fetch all country data and cache to local storage (per the APIs request)
     fetch(apiUrl).then(function (response) {
         if (response.ok) {
-            response.json().then(function (countryData) {
+            response.json().then(function (travelData) {
                 localStorage.setItem(
-                    "countryData",
-                    JSON.stringify(countryData.data)
+                    "travelData",
+                    JSON.stringify(travelData.data)
                 );
                 // Parse the travel data for usage in app
                 //parseTravelData();
@@ -111,57 +107,30 @@ function refreshTravelSafetyData() {
 }
 
 /**
- * Function to parse the data for a selected country
- * @param {*} countryCode
- * @returns
+ * ! Function to layer in the travel safety data with the COVID-19 data
  */
-
-function parseTravelData(countryCode) {
+function addTravelData(countryStats) {
     // Fetch locally stored country travel data
-    const localData = JSON.parse(localStorage.getItem("countryData"));
+    const travelData = JSON.parse(localStorage.getItem("travelData"));
 
     // Fill object with country data
-    let countryData = {
-        iso: localData[countryCode].iso_alpha2,
-        name: localData[countryCode].name,
-        score: localData[countryCode].advisory.score,
-    };
+    for (let i = 0; i < countryStats.length; i++) {
+        // Get the ISO2 code
+        const countryIso2 = countryStats[i].iso2;
 
-    console.log(countryData);
-
-    return countryData;
-}
-
-/**
- *
- * @param {*} countryCode
- */
-function saveCountry(countryCode) {
-    // Fetch existing cities and store in a local object
-    countryList = JSON.parse(localStorage.getItem("countryList"));
-
-    // If countList is empty then initialize
-    if (!countryList) {
-        countryList = [];
+        // Convert to epoch time
+        let tempDate =
+            new Date(travelData[countryIso2].advisory.updated).valueOf() / 1000;
+        
+        // Set the respective values in the object
+        countryStats[i].travelTs.unshift(tempDate);
+        countryStats[i].travelScore.unshift(
+            travelData[countryIso2].advisory.score
+        );
     }
 
-    // Check to see if the country is already stored. If not, add the country to the list.
-    countryExists = false;
-    let i = 0;
-    countryList.forEach((element) => {
-        if (element === countryCode) {
-            // Country exists in local storage
-            countryExists = true;
-            i = +1;
-        }
-    });
-    // If the country does not exist then push on to the array
-    if (!countryExists) {
-        countryList.push(countryCode);
-    }
-
-    // Stringify and write data to local storage
-    localStorage.setItem("countryList", JSON.stringify(countryList));
+    // Write results to local storage
+    writeLocalStorage(countryStats);
 }
 
 /**
@@ -171,8 +140,7 @@ function saveCountry(countryCode) {
 function updatePage() {}
 
 /**
- *  ! Read local storage
- * Reads from local storage and updates the countryData object that can be used by other functions
+ * ! Reads from local storage and updates the countryData object that can be used by other functions
  */
 function readLocalStorage() {
     // Fetch data from local storage and save in local variable
@@ -182,8 +150,7 @@ function readLocalStorage() {
 }
 
 /**
- * ! Update local storage
- * Writes to local storage from the countryData object
+ * ! Writes to local storage from the countryData object
  */
 function writeLocalStorage(countryStats) {
     // Write to local storage
@@ -195,7 +162,7 @@ function writeLocalStorage(countryStats) {
  */
 function init() {
     // TODO - temporary - add a country to countryStats in local storage
-    addCountry("AL");
+    addCountry("US");
 
     // Read local storage data
     let countryStats = readLocalStorage();
@@ -204,14 +171,13 @@ function init() {
     countryStats = refreshCovidData(countryStats);
 
     // Pull latest travel safety data and update local
-    // Comment out when testing
-    // refreshTravelSafetyData();
+    refreshTravelSafetyData();    // Comment out when testing
 
-    // Combine COVID-19 data with travel safety data
-    //parseTravelData(country);
+    // Layer in the travel safety data with the COVID-19 data
+    addTravelData(countryStats);
 
     // Update the page
-    //updatePage();
+    updatePage();
 }
 
 // Run init routine
