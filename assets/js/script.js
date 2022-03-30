@@ -59,13 +59,14 @@ function refreshCovidData(countryStats) {
             return response.json();
         })
         .then(function (data) {
-            //console.log(data);
+            console.log(data);
             for (i = 0; i < countryStats.length; i++) {
                 for (j = 0; j < data.length; j++) {
                     if (countryStats[i].iso2 == data[j].countryInfo.iso2) {
-                        if ((countryStats.flag = "")) {
+                        if ((countryStats[i].flag === "")) {
                             countryStats[i].flag = data[j].countryInfo.flag;
                         }
+                        countryStats[i].name = data[j].country;
                         countryStats[i].covidTs.unshift(data[j].updated);
                         countryStats[i].todayCases.unshift(data[j].todayCases);
                         countryStats[i].totalCases.unshift(data[j].cases);
@@ -199,17 +200,10 @@ function init() {
     // Read local storage data
     let countryStats = readLocalStorage();
 
-    // Pull the latest COVID 19 data and update countryStats
+    // Pull the latest COVID-19 data and update countryStats
     countryStats = refreshCovidData(countryStats);
-    //console.log(countryStats);
 
-    // Write local storage data
-    //writeLocalStorage(countryStats);
-
-    //console.log(readLocalStorage());
-    //console.log(countryStats);
-
-    // Fetch latest travel safety data and save to local storage
+    // Pull latest travel safety data and update local
     // Comment out when testing
     // refreshTravelSafetyData();
 
