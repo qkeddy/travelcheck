@@ -9,6 +9,7 @@
       covidTs: [], // A rolling list of 30 numbers for historical purposes
       todayCases: [], // A rolling list of 30 numbers for historical purposes
       totalCases: [], // A rolling list of 30 numbers for historical purposes
+      totalCasesPerMillion: [],
       travelTs: [], // A rolling list of 30 numbers for historical purposes
       travelScore: [], // A rolling list of 30 numbers for historical purposes
   };
@@ -18,7 +19,7 @@
  * << Carol to build out and document >>
  */
 
-function refreshCovidData() {
+function refreshCovidData(countryStat) {
     var casesUrl = 'https://disease.sh/v3/covid-19/countries';
 
     fetch(casesUrl)
@@ -27,21 +28,22 @@ function refreshCovidData() {
         })
         .then(function (data) {
             console.log(data);
-            for (i = 0; i < countryData.length; i++) {
+            for (i = 0; i < countryStat.length; i++) {
                 for (j=0;j<data.length;j++) {
-                    if (countryData[i].iso2 == data[j].countryInfo.iso2) {
-                        if (countryData.flag = '') {
-                            countryData[i].flag = data[j].countryInfo.flag;
+                    if (countryStat[i].iso2 == data[j].countryInfo.iso2) {
+                        if (countryStat.flag = '') {
+                            countryStat[i].flag = data[j].countryInfo.flag;
                         }
-                        countryData[i].covidTs.unshift(data[j].updated)
-                        countryData[i].todayCases.unshift(data[j].todayCases);
-                        countryData[i].totalCases.unshift(data[j].cases);
-                        countryData[i].totalCasesPerMillion.unshift(data[j].casesPerOneMillion);
+                        countryStat[i].covidTs.unshift(data[j].updated)
+                        countryStat[i].todayCases.unshift(data[j].todayCases);
+                        countryStat[i].totalCases.unshift(data[j].cases);
+                        countryStat[i].totalCasesPerMillion.unshift(data[j].casesPerOneMillion);
                     }
                 }
 
             }
         });
+        return countryStat;
 
 }
 
