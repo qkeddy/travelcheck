@@ -42,8 +42,8 @@ function addCountry(countryIso2) {
         countryStats.push(countryStat);
     }
 
-    // Stringify and write data to local storage
-    localStorage.setItem("countryStats", JSON.stringify(countryStats));
+    // Write data to local storage
+    writeLocalStorage(countryStats);
 }
 
 /**
@@ -51,34 +51,35 @@ function addCountry(countryIso2) {
  * << Carol to build out and document >>
  */
 
-function refreshCovidData(countryStat) {
+function refreshCovidData(countryStats) {
     var casesUrl = "https://disease.sh/v3/covid-19/countries";
-
-    console.log("here");
 
     fetch(casesUrl)
         .then(function (response) {
             return response.json();
         })
         .then(function (data) {
-            console.log(data);
-            for (i = 0; i < countryStat.length; i++) {
+            //console.log(data);
+            for (i = 0; i < countryStats.length; i++) {
                 for (j = 0; j < data.length; j++) {
-                    if (countryStat[i].iso2 == data[j].countryInfo.iso2) {
-                        if ((countryStat.flag = "")) {
-                            countryStat[i].flag = data[j].countryInfo.flag;
+                    if (countryStats[i].iso2 == data[j].countryInfo.iso2) {
+                        if ((countryStats.flag = "")) {
+                            countryStats[i].flag = data[j].countryInfo.flag;
                         }
-                        countryStat[i].covidTs.unshift(data[j].updated);
-                        countryStat[i].todayCases.unshift(data[j].todayCases);
-                        countryStat[i].totalCases.unshift(data[j].cases);
-                        countryStat[i].totalCasesPerMillion.unshift(
+                        countryStats[i].covidTs.unshift(data[j].updated);
+                        countryStats[i].todayCases.unshift(data[j].todayCases);
+                        countryStats[i].totalCases.unshift(data[j].cases);
+                        countryStats[i].totalCasesPerMillion.unshift(
                             data[j].casesPerOneMillion
                         );
                     }
                 }
             }
+        })
+        .then(function () {
+            writeLocalStorage(countryStats);
         });
-    return countryStat;
+    //return countryStat;
 }
 
 /**
@@ -192,35 +193,28 @@ function writeLocalStorage(countryStats) {
  * ! Initialization function
  */
 function init() {
-
     // TODO - temporary - add a country to countryStats in local storage
-    addCountry("US");
+    addCountry("AL");
+
+    // Read local storage data
+    let countryStats = readLocalStorage();
+
+    // Pull the latest COVID 19 data and update countryStats
+    countryStats = refreshCovidData(countryStats);
+    //console.log(countryStats);
+
+    // Write local storage data
+    //writeLocalStorage(countryStats);
+
+    //console.log(readLocalStorage());
+    //console.log(countryStats);
 
     // Fetch latest travel safety data and save to local storage
     // Comment out when testing
     // refreshTravelSafetyData();
 
-    // Read local storage data
-    //countryStats = readLocalStorage();
-
-    // If countryStats is empty then initialize the array
-    // if (!countryStats) {
-    //     countryStats = [];
-    // }
-
-    // console.log("Country Stats: ", countryStats);
-
-    // Pull the latest COVID 19 data
-    //countryStats = refreshCovidData(countryStats);
-
-    // Pull the latest travel safety data
-    //refreshTravelSafetyData();
-
     // Combine COVID-19 data with travel safety data
     //parseTravelData(country);
-
-    // Write local storage data
-    //writeLocalStorage(countryStats);
 
     // Update the page
     //updatePage();
