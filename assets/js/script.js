@@ -17,7 +17,33 @@
  * ! COVID-19 data query
  * << Carol to build out and document >>
  */
-function refreshCovidData() {}
+
+function refreshCovidData() {
+    var casesUrl = 'https://disease.sh/v3/covid-19/countries';
+
+    fetch(casesUrl)
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+            console.log(data);
+            for (i = 0; i < countryData.length; i++) {
+                for (j=0;j<data.length;j++) {
+                    if (countryData[i].iso2 == data[j].countryInfo.iso2) {
+                        if (countryData.flag = '') {
+                            countryData[i].flag = data[j].countryInfo.flag;
+                        }
+                        countryData[i].covidTs.unshift(data[j].updated)
+                        countryData[i].todayCases.unshift(data[j].todayCases);
+                        countryData[i].totalCases.unshift(data[j].cases);
+                        countryData[i].totalCasesPerMillion.unshift(data[j].casesPerOneMillion);
+                    }
+                }
+
+            }
+        });
+
+}
 
 /**
  * ! Travel safety data query
