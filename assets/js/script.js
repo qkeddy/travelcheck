@@ -47,8 +47,11 @@ function addCountry(countryIso2) {
 /**
  * ! Fetch COVID-19 data from disease.sh service and update the object countryStats
  */
-function refreshCovidData(countryStats) {
+function refreshCovidData() {
     var casesUrl = "https://disease.sh/v3/covid-19/countries";
+
+    // Read local storage data
+    let countryStats = readLocalStorage();
 
     fetch(casesUrl)
         .then(function (response) {
@@ -76,8 +79,11 @@ function refreshCovidData(countryStats) {
         .then(function () {
             // Write results to local storage
             writeLocalStorage(countryStats);
+        })
+        .then(function () {
+            // Layer in the travel safety data with the COVID-19 data
+            addTravelData();
         });
-    //return countryStat;
 }
 
 /**
@@ -109,9 +115,12 @@ function refreshTravelSafetyData() {
 /**
  * ! Function to layer in the travel safety data with the COVID-19 data
  */
-function addTravelData(countryStats) {
+function addTravelData() {
     // Fetch locally stored country travel data
-    const travelData = JSON.parse(localStorage.getItem("travelData"));
+    let travelData = JSON.parse(localStorage.getItem("travelData"));
+
+    // Read local storage data
+    let countryStats = readLocalStorage();
 
     // Fill object with country data
     for (let i = 0; i < countryStats.length; i++) {
@@ -121,7 +130,7 @@ function addTravelData(countryStats) {
         // Convert to epoch time
         let tempDate =
             new Date(travelData[countryIso2].advisory.updated).valueOf() / 1000;
-        
+
         // Set the respective values in the object
         countryStats[i].travelTs.unshift(tempDate);
         countryStats[i].travelScore.unshift(
@@ -164,17 +173,13 @@ function init() {
     // TODO - temporary - add a country to countryStats in local storage
     addCountry("US");
 
-    // Read local storage data
-    let countryStats = readLocalStorage();
+    // Pull latest travel safety data and update local
+    refreshTravelSafetyData(); // Comment out when testing
 
     // Pull the latest COVID-19 data and update countryStats
-    countryStats = refreshCovidData(countryStats);
-
-    // Pull latest travel safety data and update local
-    refreshTravelSafetyData();    // Comment out when testing
-
-    // Layer in the travel safety data with the COVID-19 data
-    addTravelData(countryStats);
+    // This function all executes the addTravelData function. This was
+    // added to ensure that all local storage writes have completed.
+    refreshCovidData();
 
     // Update the page
     updatePage();
