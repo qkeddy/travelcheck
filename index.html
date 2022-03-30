@@ -9,16 +9,20 @@
     <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link href="https://fonts.googleapis.com/css2?family=Lato&family=Montserrat&family=Oswald&family=Raleway&family=Roboto&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./assets/css/style.css">
 </head>
 
 <body>
-    <header>
-        <h1>TravelCheck Home Page</h1>
+    <header class="align-center">
+        <div class="container text-center">
+            <h1>TravelCheck Home Page</h1>
+        </div>
+        
     </header>
 
-    <main>
-        <aside class="col-3">
+    <main class="flex-row">
+        <aside class="col-3 flex-column">
             <form class="mdc-card mdc-card--outlined ">
                 <input id="" type="text" />
                 <button class="mdc-button mdc-button--raised" type="sumbit">
@@ -37,18 +41,19 @@
                 </li>
             </ul>
         </aside>
-        <section class="flex-column col-9">
-            <h2>Search Results:</h2>
-
+        <section class="flex-column col-9 mdc-card mdc-card--outlined">
             <h3>
-                <!-- Country Name -->
+                Country Name: <span>Afghanistan</span>
             </h3>
             <img> <!-- Flag Image -->
             <p>
-                <!-- Covid Cases per million -->
+                Covid Cases per million: <span>528.4</span>
             </p>
             <p>
-                <!-- Number of Travel Advisories -->
+                Number of Travel Advisories: <span>5</span>
+            </p>
+            <p>
+                Reccomendation: <span></span>
             </p>
         </section>
     </main>

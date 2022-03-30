@@ -2,19 +2,22 @@
 *::before,
 *::after {
     box-sizing: border-box;
+    font-family: 'Oswald';
 }
 
-html,
-body,
-.wrapper {
-    height: 100%;
-    margin: 0;
-    padding: 0;
+header{
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 100px;
+    padding-left: 1rem;
+    background-color: rgb(162, 162, 255);
 }
 
 body {
     font-family: sans-serif;
     background-color: #f6faff;
+    margin: 0;
 }
 
 .mdc-button {
@@ -22,10 +25,17 @@ body {
     --mdc-theme-on-primary: #ffffff;
 }
 
+.mdc-list-item{
+    justify-content: center;
+}
+
 main {
     display: flex;
+    padding-top: 100px;
+    justify-content: center;
 }
-aside{
+aside,
+section{
     margin: 10px;
     padding: 5px;
 }
@@ -128,4 +138,11 @@ form{
 
 .col-12 {
     flex: 0 0 100%;
+}
+
+@media screen and (max-width: 999px) {
+    .col-3,
+    .col-9 {
+        flex: 0 0 100%;
+    }
 }
