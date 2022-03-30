@@ -1,12 +1,85 @@
 // Find global HTML elements on page
 
-// Global variables declaration
+
+/**
+ * TODO - Convert this to a click button operation
+ * Function to add a country to the countryStats local storage
+ */
+function addCountry(countryIso2) {
+    // Fetch existing counties and store in a local object
+    countryStats = JSON.parse(localStorage.getItem("countryStats"));
+
+    // If countryStats is empty then initialize
+    if (!countryStats) {
+        countryStats = [];
+    }
+
+    // Check to see if the country is already stored. If not, add the country to the list.
+    countryExists = false;
+
+    for (let i = 0; i < countryStats.length; i++) {
+        if (countryStats[i].iso2 === countryIso2) {
+            // Country exists in local storage
+            countryExists = true;
+        }
+    }
+
+    // If the country does not exist then push on to the array
+    if (!countryExists) {
+        let countryStat = {
+            name: "",
+            iso2: countryIso2,
+            flag: "",
+            selected: false,
+            covidTs: [], // A rolling list of 30 numbers for historical purposes
+            todayCases: [], // A rolling list of 30 numbers for historical purposes
+            totalCases: [], // A rolling list of 30 numbers for historical purposes
+            totalCasesPerMillion: [],
+            travelTs: [], // A rolling list of 30 numbers for historical purposes
+            travelScore: [], // A rolling list of 30 numbers for historical purposes
+        };
+
+        countryStats.push(countryStat);
+    }
+
+    // Stringify and write data to local storage
+    localStorage.setItem("countryStats", JSON.stringify(countryStats));
+}
 
 /**
  * ! COVID-19 data query
  * << Carol to build out and document >>
  */
-function refreshCovidData() {}
+
+function refreshCovidData(countryStat) {
+    var casesUrl = "https://disease.sh/v3/covid-19/countries";
+
+    console.log("here");
+
+    fetch(casesUrl)
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+            console.log(data);
+            for (i = 0; i < countryStat.length; i++) {
+                for (j = 0; j < data.length; j++) {
+                    if (countryStat[i].iso2 == data[j].countryInfo.iso2) {
+                        if ((countryStat.flag = "")) {
+                            countryStat[i].flag = data[j].countryInfo.flag;
+                        }
+                        countryStat[i].covidTs.unshift(data[j].updated);
+                        countryStat[i].todayCases.unshift(data[j].todayCases);
+                        countryStat[i].totalCases.unshift(data[j].cases);
+                        countryStat[i].totalCasesPerMillion.unshift(
+                            data[j].casesPerOneMillion
+                        );
+                    }
+                }
+            }
+        });
+    return countryStat;
+}
 
 /**
  * ! Travel safety data query
@@ -82,7 +155,6 @@ function saveCountry(countryCode) {
     });
     // If the country does not exist then push on to the array
     if (!countryExists) {
-        console.log("got here");
         countryList.push(countryCode);
     }
 
@@ -94,29 +166,64 @@ function saveCountry(countryCode) {
  * ! Update page
  * << Update page with blended data >>
  */
-function updatePage() {
-    console.log("Page updated");
+function updatePage() {}
+
+/**
+ *  ! Read local storage
+ * Reads from local storage and updates the countryData object that can be used by other functions
+ */
+function readLocalStorage() {
+    // Fetch data from local storage and save in local variable
+    storedData = JSON.parse(localStorage.getItem("countryStats"));
+
+    return storedData;
+}
+
+/**
+ * ! Update local storage
+ * Writes to local storage from the countryData object
+ */
+function writeLocalStorage(countryStats) {
+    // Write to local storage
+    localStorage.setItem("countryStats", JSON.stringify(countryStats));
 }
 
 /**
  * ! Initialization function
  */
 function init() {
-    // Set selected country
-    let country = "US";
 
-    // Get country list
-    saveCountry(country);
+    // TODO - temporary - add a country to countryStats in local storage
+    addCountry("US");
+
+    // Fetch latest travel safety data and save to local storage
+    // Comment out when testing
+    // refreshTravelSafetyData();
+
+    // Read local storage data
+    //countryStats = readLocalStorage();
+
+    // If countryStats is empty then initialize the array
+    // if (!countryStats) {
+    //     countryStats = [];
+    // }
+
+    // console.log("Country Stats: ", countryStats);
 
     // Pull the latest COVID 19 data
-    refreshCovidData();
+    //countryStats = refreshCovidData(countryStats);
 
     // Pull the latest travel safety data
     //refreshTravelSafetyData();
-    parseTravelData(country);
+
+    // Combine COVID-19 data with travel safety data
+    //parseTravelData(country);
+
+    // Write local storage data
+    //writeLocalStorage(countryStats);
 
     // Update the page
-    updatePage();
+    //updatePage();
 }
 
 // Run init routine
