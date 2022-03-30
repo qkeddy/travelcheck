@@ -45,10 +45,6 @@ function refreshCovidData() {
 
 }
 
-
-
-function refreshCovidData() {}
-
 /**
  * ! Travel safety data query
  * << Quin to build out and document >>
