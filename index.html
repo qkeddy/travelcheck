@@ -29,9 +29,12 @@
             <form class="mdc-card mdc-card--outlined">
 
                 <select name="countryList" id="countryList">
-                    <optgroup label="">
-                        <option value=""></option>
-                    </optgroup>
+                    <optgroup label="North America" id="North America"></optgroup>
+                    <optgroup label="South America" id="South America"></optgroup>
+                    <optgroup label="Europe " id="Europe"></optgroup>
+                    <optgroup label="Africa" id="Africa"></optgroup>
+                    <optgroup label="Asia" id="Asia"></optgroup>
+                    <optgroup label="Australia-Oceania" id="Australia-Oceania"></optgroup>
                 </select>
 
                 <button class="mdc-button mdc-button--raised" type="sumbit">
@@ -46,10 +49,12 @@
             </ul>
         </aside>
         <section class="flex-column col-9 mdc-card mdc-card--outlined">
+            <img src="https://disease.sh/assets/img/flags/us.png" width="250" height="160" id="flagImage" />
+
             <h3>
                 Country Name: <span id="countryName"></span>
             </h3>
-            <img src="" width="" height="" id="flagImage" /> 
+
             <p>
                 Covid Cases per million: <span id="casesPerMil"></span>
             </p>
@@ -62,12 +67,13 @@
         </section>
     </main>
 
-    <section>
 
-    </section>
 
     <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
     <script src="./assets/js/script.js"></script>
 </body>
+<footer>
+    <span>Copyright © 2022 | All Rights Reserved</span>
+</footer>
 
 </html>
