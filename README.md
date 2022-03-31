@@ -7,20 +7,38 @@ As someone who intends to travel internationally, I want to be able to access re
 
 ## Usage
 
-WIP
+This application can be found that the following [link](https://qkeddy.github.io/travelcheck/).
+
+When you first arrive on the page, there will be a country dropdown and a submit button.
+
+![Screenshot of TravelCheck homepage](assets/images/start.png)
+
+To get COVID-19 and travel safety data for a specific country, select the country you want from the dropdown and click submit. Countries are listed by continent and then in alphabetical order.
+
+![Screenshot of TravelCheck dropdown menu](assets/images/dropdown.png)
+
+After clicking submit, data for the country that you input will be displayed on the screen and that country will appear in left-hand column under that submit button.
+
+![Screenshot of TravelCheck displaying data for Cambodia with flag](assets/images/search.png)
+
+As you continue to search for countries, TravelCheck will store your search history in the left-hand column. Simply click on the country name to view a country that you have already searched. Your search history will be stored in local storage, so you can feel free to leave and return to this page without losing your search history.
+
+![Screenshot of TravelCheck displaying data for Greece with flag](assets/images/storage.png)
 
 ## Credits
 
 ### List of Collaborators
-* Quin Eddy
-* Augustus Madden
-* Carol Tsai
+* Quin Eddy [(Github)](https://github.com/qkeddy)
+* Augustus Madden [(Github)](https://github.com/AugustusMadden)
+* Carol Tsai [(Github)](https://github.com/carol-tsai)
 
 ### This application will use the following open APIs and CSS frameworks:
 
-* [Travel Advisory API](https://www.travel-advisory.info/) [(Documentation)](https://www.travel-advisory.info/data-api) 
-* [COVID-10 Data API](https://disease.sh/) [(Documentation)](https://disease.sh/docs/)
+* [Travel Advisory API](https://www.travel-advisory.info/)
+* [COVID-10 Data API](https://disease.sh/)
 * [Material (CSS framework)](https://material.io/)
+* [Moment.js](https://momentjs.com/)
+* [Google Fonts](https://fonts.google.com/)
 
 
 ### Reference Documents
@@ -34,7 +52,7 @@ WIP
 
 MIT License
 
-Copyright (c) 2022 Carol Tsai
+Copyright (c) 2022 Augustus Madden, Carol Tsai, Quin Eddy
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
