@@ -1,5 +1,4 @@
 // Find global HTML elements on page
-<<<<<<< HEAD
 var formEl = document.getElementById('countryList');
 var countryNameEl = document.getElementById('countryName');
 var flagEl = document.getElementById('flagImage');
@@ -7,9 +6,7 @@ var casesPerMilEl = document.getElementById('casesPerMil')
 var newCasesEl = document.getElementById('newCases');
 var travelScoreEl = document.getElementById('advisoryNum');
 var savedCountriesEl = document.getElementById('savedQueries');
-=======
 submitButtonEl = document.querySelector("button");
->>>>>>> 7447a6c81d91bd3d8e2b01d687483c134d38f023
 
 /**
  * TODO - Convert this to a click button operation
@@ -150,8 +147,7 @@ function addTravelData() {
  * ! Update page
  * << Update page with blended data >>
  */
-function updatePage(event) {
-    event.preventDefault();
+function updatePage() {
     var newCountry = formEl.value;
     addCountry(newCountry);
     var countryData = readLocalStorage();
@@ -186,9 +182,9 @@ function updateData(iso2) {
         if (countryData[i].iso2 == iso2) {
             countryNameEl.textContent = countryData[i].name;
             flagEl.setAttribute('src', countryData[i].flag);
-            casesPerMilEl.textContent = countryData[i].totalCasesPerMillion;
-            newCasesEl.textContent = countryData[i].todayCases;
-            travelScoreEl.textContent = countryData[i].travelScore;
+            casesPerMilEl.textContent = countryData[i].totalCasesPerMillion[0];
+            newCasesEl.textContent = countryData[i].todayCases[0];
+            travelScoreEl.textContent = countryData[i].travelScore[0];
         }
     }
     return;
