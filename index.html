@@ -54,13 +54,22 @@
             </h3>
             <img src="" width="" height="" id="flagImage" /> 
             <p>
+                Total Covid Cases: <span id="totalCases"></span>
+            </p>
+            <p>
                 Covid Cases per million: <span id="casesPerMil"></span>
+            </p>
+            <p>
+                New Covid Cases: <span id="newCases"></span>
+            </p>
+            <p>
+                Covid Data last updated: <span id="covidTs"></span>
             </p>
             <p>
                 Number of Travel Advisories: <span id="advisoryNum"></span>
             </p>
             <p>
-                Recommendation: <span id="countryName"></span>
+                Travel Data last updated: <span id="travelTs"></span>
             </p>
         </section>
     </main>
@@ -68,7 +77,7 @@
     <section>
 
     </section>
-
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/moment.min.js"></script>
     <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
     <script src="./assets/js/script.js"></script>
 </body>
