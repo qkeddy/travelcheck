@@ -75,14 +75,8 @@ function refreshCovidData() {
                     }
                 }
             }
-        })
-        .then(function () {
             // Write results to local storage
             writeLocalStorage(countryStats);
-        })
-        .then(function () {
-            // Layer in the travel safety data with the COVID-19 data
-            addTravelData();
         });
 }
 
@@ -101,10 +95,9 @@ function refreshTravelSafetyData() {
                     "travelData",
                     JSON.stringify(travelData.data)
                 );
-                // Parse the travel data for usage in app
-                //parseTravelData();
-
                 console.log("SUCCESS: Travel safety data successfully fetched");
+                // Layer in the travel safety data with the COVID-19 data
+                addTravelData();
             });
         } else {
             console.log("FAILURE: Safety data successfully fetched");
@@ -173,12 +166,10 @@ function init() {
     // TODO - temporary - add a country to countryStats in local storage
     addCountry("US");
 
-    // Pull latest travel safety data and update local
+    // Pull latest travel safety data and update CountryStats
     refreshTravelSafetyData(); // Comment out when testing
 
     // Pull the latest COVID-19 data and update countryStats
-    // This function all executes the addTravelData function. This was
-    // added to ensure that all local storage writes have completed.
     refreshCovidData();
 
     // Update the page
