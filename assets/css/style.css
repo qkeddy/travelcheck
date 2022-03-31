@@ -161,7 +161,7 @@ footer {
     flex: 0 0 100%;
 }
 
-@media screen and (max-width: 1048px) {
+@media screen and (max-width: 1394px) {
     .col-3,
     .col-9 {
         flex: 0 0 100%;
