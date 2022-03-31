@@ -1,4 +1,5 @@
 // Find global HTML elements on page
+submitButtonEl = document.querySelector("button");
 
 /**
  * TODO - Convert this to a click button operation
@@ -139,7 +140,9 @@ function addTravelData() {
  * ! Update page
  * << Update page with blended data >>
  */
-function updatePage() {}
+function updatePage() {
+    console.log("Got Here - Page Update");
+}
 
 /**
  * ! Reads from local storage and updates the countryData object that can be used by other functions
@@ -163,9 +166,6 @@ function writeLocalStorage(countryStats) {
  * ! Initialization function
  */
 function init() {
-    // TODO - temporary - add a country to countryStats in local storage
-    addCountry("US");
-
     // Pull latest travel safety data and update CountryStats
     refreshTravelSafetyData(); // Comment out when testing
 
@@ -178,3 +178,21 @@ function init() {
 
 // Run init routine
 init();
+
+
+// Event listener to select a certain country
+submitButtonEl.addEventListener("click", function(event) {
+    // Override default HTML form behavior
+    event.preventDefault();
+
+    // TODO - temporary - add a country to countryStats in local storage. The hardcoded string will be replaced with the selected country from the dropdown.
+    addCountry("AL");
+
+    // Add the travel safety to CountryStats
+    addTravelData(); // Comment out when testing
+
+    // Pull the latest COVID-19 data and update countryStats
+    refreshCovidData();
+
+    updatePage();
+});
