@@ -2,27 +2,31 @@
 *::before,
 *::after {
     box-sizing: border-box;
-    font-family: 'Oswald';
+    font-family: 'Raleway';
 }
 
 header{
     position: fixed;
+    display: flex;
+    flex-wrap: wrap;
     top: 0;
     width: 100%;
     height: 100px;
     padding-left: 1rem;
-    background-color: rgb(162, 162, 255);
+    color: #f3f3f3;
+    background-color: #3378e6;
 }
 
 body {
     font-family: sans-serif;
-    background-color: #f6faff;
+    background-color: #f3f3f3;
     margin: 0;
 }
 
 .mdc-button {
-    --mdc-theme-primary: #ffa083;
-    --mdc-theme-on-primary: #ffffff;
+    --mdc-theme-primary: #83ecff;
+    --mdc-theme-on-primary: #000000;
+    margin-top: 10px;
 }
 
 .mdc-list-item{
@@ -43,6 +47,10 @@ section{
 form{
     margin: 10px;
     padding: 25px;
+}
+
+#logo{
+    padding-right: 15px;
 }
 /* FLEX CONTENT */
 .flex-row {
@@ -140,7 +148,7 @@ form{
     flex: 0 0 100%;
 }
 
-@media screen and (max-width: 999px) {
+@media screen and (max-width: 1048px) {
     .col-3,
     .col-9 {
         flex: 0 0 100%;

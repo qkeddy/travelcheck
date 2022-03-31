@@ -9,34 +9,41 @@
     <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link href="https://fonts.googleapis.com/css2?family=Lato&family=Montserrat&family=Oswald&family=Raleway&family=Roboto&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Lato&family=Montserrat&family=Oswald&family=Raleway&family=Roboto&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="./assets/css/style.css">
 </head>
 
 <body>
-    <header class="align-center">
-        <div class="container text-center">
+    <header>
+        <div class="flex-row align-center">
+            <img src="assets/images/travelcheck-white.svg" height="50" width="50" />
             <h1>TravelCheck Home Page</h1>
         </div>
-        
+
     </header>
 
     <main class="flex-row">
         <aside class="col-3 flex-column">
-            <form class="mdc-card mdc-card--outlined ">
-                <input id="" type="text" />
+            <form class="mdc-card mdc-card--outlined">
+
+                <input list="countryList" type="text" name="" id="">
+                <datalist id="countryList">
+                    <option value="Edge">
+                </datalist>
+
                 <button class="mdc-button mdc-button--raised" type="sumbit">
                     <span class="mdc-button__label">Submit</span>
                 </button>
             </form>
             <ul class="mdc-list mdc-card">
-                <!-- Search History -->
-                <li class="mdc-list-item"> 
-                    <span class="mdc-list-item__ripple"></span> 
+                <li class="mdc-list-item">
+                    <span class="mdc-list-item__ripple"></span>
                     <span class="mdc-list-item__text">A</span>
                 </li>
-                <li class="mdc-list-item"> 
-                    <span class="mdc-list-item__ripple"></span> 
+                <li class="mdc-list-item">
+                    <span class="mdc-list-item__ripple"></span>
                     <span class="mdc-list-item__text">B</span>
                 </li>
             </ul>
@@ -45,7 +52,7 @@
             <h3>
                 Country Name: <span>Afghanistan</span>
             </h3>
-            <img> <!-- Flag Image -->
+            <img /> <!-- Flag Image -->
             <p>
                 Covid Cases per million: <span>528.4</span>
             </p>
@@ -57,6 +64,10 @@
             </p>
         </section>
     </main>
+
+    <section>
+
+    </section>
 
     <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
     <script src="./assets/js/script.js"></script>
