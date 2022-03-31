@@ -142,6 +142,38 @@ function addTravelData() {
 function updatePage() {}
 
 /**
+ * ! Update page
+ * << Update page with blended data >>
+ */
+
+function populateList() {
+
+    var countryList = document.getElementById('#countryList')
+
+    var casesUrl = "https://disease.sh/v3/covid-19/countries"
+
+    fetch(casesUrl)
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+            console.log(data.length);
+            for (i=0; i < data.length; i++) {
+                if (data[i].countryInfo.lat !== 0){ //generate option tag                                   
+                    var optionEl = document.createElement("option")
+                    //set option value to data[0].countryInfo.iso2          
+                    optionEl.value = data[i].countryInfo.iso2
+                    //set option text context to data[0].country            
+                    optionEl.textContent = data[i].country
+                    //append to optgroup where label === data[0].continent  
+                    rootEl = document.getElementById(data[i].continent);
+                    rootEl.append(optionEl); }
+                               
+            }
+        })
+}
+
+/**
  * ! Reads from local storage and updates the countryData object that can be used by other functions
  */
 function readLocalStorage() {
@@ -174,6 +206,9 @@ function init() {
 
     // Update the page
     updatePage();
+
+    // Populates country list
+    populateList()
 }
 
 // Run init routine
