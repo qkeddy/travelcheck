@@ -1,4 +1,11 @@
 // Find global HTML elements on page
+var formEl = document.getElementById('countryList');
+var countryNameEl = document.getElementById('countryName');
+var flagEl = document.getElementById('flagImage');
+var casesPerMilEl = document.getElementById('casesPerMil')
+var newCasesEl = document.getElementById('newCases');
+var travelScoreEl = document.getElementById('advisoryNum');
+var savedCountriesEl = document.getElementById('savedQueries');
 
 /**
  * TODO - Convert this to a click button operation
@@ -139,7 +146,59 @@ function addTravelData() {
  * ! Update page
  * << Update page with blended data >>
  */
-function updatePage() {}
+function updatePage(event) {
+    event.preventDefault();
+    var newCountry = formEl.value;
+    addCountry(newCountry);
+    var countryData = readLocalStorage();
+    updateCountries(countryData);
+    updateData(newCountry);
+}
+
+/**
+ * ! Update Countries
+ * << Update search history with list items >>
+ */
+function updateCountries(countryData) {
+    savedCountriesEl.innerHTML = '';
+    for (i = 0; i < countryData.length; i++) {
+        var liEl = document.createElement('li');
+        liEl.textContent = countryData[i].name;
+        liEl.setAttribute('data-iso2', countryData[i].iso2);
+        liEl.setAttribute('class', 'mdc-list-item');
+        liEl.addEventListener('click', handleClick);
+        savedCountriesEl.append(liEl);
+
+    }
+}
+
+/**
+ * ! Update Data
+ * << Update travel score and covid data on page >>
+ */
+function updateData(iso2) {
+    var countryData = readLocalStorage();
+    for (i=0; i <countryData.length; i++) {
+        if (countryData[i].iso2 == iso2) {
+            countryNameEl.textContent = countryData[i].name;
+            flagEl.setAttribute('src', countryData[i].flag);
+            casesPerMilEl.textContent = countryData[i].totalCasesPerMillion;
+            newCasesEl.textContent = countryData[i].todayCases;
+            travelScoreEl.textContent = countryData[i].travelScore;
+        }
+    }
+    return;
+}
+
+/**
+ * ! Handle click
+ * << Handle click event listener >>
+ */
+function handleClick(event) {
+    var iso2 = event.target.getAttribute('data-iso2');
+    updateData(iso2);
+}
+
 
 /**
  * ! Reads from local storage and updates the countryData object that can be used by other functions
