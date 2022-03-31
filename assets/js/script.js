@@ -1,4 +1,5 @@
 // Find global HTML elements on page
+<<<<<<< HEAD
 var formEl = document.getElementById('countryList');
 var countryNameEl = document.getElementById('countryName');
 var flagEl = document.getElementById('flagImage');
@@ -6,6 +7,9 @@ var casesPerMilEl = document.getElementById('casesPerMil')
 var newCasesEl = document.getElementById('newCases');
 var travelScoreEl = document.getElementById('advisoryNum');
 var savedCountriesEl = document.getElementById('savedQueries');
+=======
+submitButtonEl = document.querySelector("button");
+>>>>>>> 7447a6c81d91bd3d8e2b01d687483c134d38f023
 
 /**
  * TODO - Convert this to a click button operation
@@ -222,9 +226,6 @@ function writeLocalStorage(countryStats) {
  * ! Initialization function
  */
 function init() {
-    // TODO - temporary - add a country to countryStats in local storage
-    addCountry("US");
-
     // Pull latest travel safety data and update CountryStats
     refreshTravelSafetyData(); // Comment out when testing
 
@@ -237,3 +238,21 @@ function init() {
 
 // Run init routine
 init();
+
+
+// Event listener to select a certain country
+submitButtonEl.addEventListener("click", function(event) {
+    // Override default HTML form behavior
+    event.preventDefault();
+
+    // TODO - temporary - add a country to countryStats in local storage. The hardcoded string will be replaced with the selected country from the dropdown.
+    addCountry("AL");
+
+    // Add the travel safety to CountryStats
+    addTravelData(); // Comment out when testing
+
+    // Pull the latest COVID-19 data and update countryStats
+    refreshCovidData();
+
+    updatePage();
+});
