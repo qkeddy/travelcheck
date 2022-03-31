@@ -351,7 +351,7 @@ init();
 
 
 // Event listener to select a certain country
-submitButtonEl.addEventListener("click", function (event) {
+submitButtonEl.addEventListener("click", function(event) {
     // Override default HTML form behavior
     event.preventDefault();
 
