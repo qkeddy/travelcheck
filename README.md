@@ -13,7 +13,7 @@ WIP
 
 ### List of Collaborators
 * Quin Eddy
-* Gus Madden
+* Augustus Madden
 * Carol Tsai
 
 ### This application will use the following open APIs and CSS frameworks:
@@ -28,6 +28,7 @@ WIP
 * [Travel Advisory API Documentation](https://www.travel-advisory.info/data-api) 
 * [COVID Data API documentation](https://disease.sh/docs/)
 * [Material.io Documentation](https://m3.material.io/foundations/glossary)
+* [w3schools Optgroup Documentation](https://www.w3schools.com/tags/tag_optgroup.asp)
 
 ## License
 
