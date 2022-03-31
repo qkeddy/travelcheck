@@ -280,6 +280,7 @@ function populateList() {
         })
 }
 
+
 /**
  * ! Reads from local storage and updates the countryData object that can be used by other functions
  */
