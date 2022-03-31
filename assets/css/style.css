@@ -1,0 +1,169 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    font-family: 'Raleway';
+}
+
+header{
+    position: fixed;
+    display: flex;
+    flex-wrap: wrap;
+    z-index: 2;
+    top: 0;
+    width: 100%;
+    height: 100px;
+    padding-left: 1rem;
+    color: #f3f3f3;
+    background-color: #3378e6;
+}
+
+body {
+    font-family: sans-serif;
+    background-color: #f3f3f3;
+    margin: 0;
+}
+
+.mdc-button {
+    --mdc-theme-primary: #83ecff;
+    --mdc-theme-on-primary: #000000;
+    margin-top: 10px;
+}
+
+.mdc-list-item{
+    justify-content: center;
+}
+
+main {
+    display: flex;
+    padding-top: 100px;
+    justify-content: center;
+    min-height: 100vh;
+}
+aside,
+section{
+    margin: 10px;
+    padding: 5px;
+}
+
+form{
+    margin: 10px;
+    padding: 25px;
+}
+
+#logo{
+    padding-right: 15px;
+}
+
+footer {
+    width: 100%;
+    bottom: 0;
+    padding: 15px;
+    text-align: center;
+    background: #3378e6;
+    color: #fff;
+    margin-top: auto;
+}
+
+/* FLEX CONTENT */
+.flex-row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.flex-column {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+.justify-space-between {
+    justify-content: space-between;
+}
+
+.justify-space-around {
+    justify-content: space-around;
+}
+
+.justify-flex-start {
+    justify-content: flex-start;
+}
+
+.justify-flex-end {
+    justify-content: flex-end;
+}
+
+.justify-center {
+    justify-content: center;
+}
+
+.align-stretch {
+    align-items: stretch;
+}
+
+.align-end {
+    align-items: flex-end;
+}
+
+.align-center {
+    align-items: center;
+}
+
+.col-auto {
+    flex-grow: 1;
+}
+
+.col-1 {
+    flex: 0 0 calc(100% * 1 / 12 - 2%);
+}
+
+.col-2 {
+    flex: 0 0 calc(100% * 2 / 12 - 2%);
+}
+
+.col-3 {
+    flex: 0 0 calc(100% * 3 / 12 - 2%);
+}
+
+.col-4 {
+    flex: 0 0 calc(100% * 4 / 12 - 2%);
+}
+
+.col-5 {
+    flex: 0 0 calc(100% * 5 / 12 - 2%);
+}
+
+.col-6 {
+    flex: 0 0 calc(100% * 6 / 12 - 2%);
+}
+
+.col-7 {
+    flex: 0 0 calc(100% * 7 / 12 - 2%);
+}
+
+.col-8 {
+    flex: 0 0 calc(100% * 8 / 12 - 2%);
+}
+
+.col-9 {
+    flex: 0 0 calc(100% * 9 / 12 - 2%);
+}
+
+.col-10 {
+    flex: 0 0 calc(100% * 10 / 12 - 2%);
+}
+
+.col-11 {
+    flex: 0 0 calc(100% * 11 / 12 - 2%);
+}
+
+.col-12 {
+    flex: 0 0 100%;
+}
+
+@media screen and (max-width: 1394px) {
+    .col-3,
+    .col-9 {
+        flex: 0 0 100%;
+    }
+}
