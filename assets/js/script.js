@@ -1,57 +1,146 @@
 // Find global HTML elements on page
 
-// Global variables declaration
-  countryStat = {
-      name: "",
-      iso2: "",
-      flag: "",
-      selected: false,
-      covidTs: [], // A rolling list of 30 numbers for historical purposes
-      todayCases: [], // A rolling list of 30 numbers for historical purposes
-      totalCases: [], // A rolling list of 30 numbers for historical purposes
-      totalCasesPerMillion: [],
-      travelTs: [], // A rolling list of 30 numbers for historical purposes
-      travelScore: [], // A rolling list of 30 numbers for historical purposes
-  };
+/**
+ * TODO - Convert this to a click button operation
+ * ! Function to add a country to the countryStats local storage
+ */
+function addCountry(countryIso2) {
+    // Fetch existing counties and store in a local object
+    countryStats = JSON.parse(localStorage.getItem("countryStats"));
+
+    // If countryStats is empty then initialize
+    if (!countryStats) {
+        countryStats = [];
+    }
+
+    // Check to see if the country is already stored. If not, add the country to the list.
+    countryExists = false;
+    for (let i = 0; i < countryStats.length; i++) {
+        if (countryStats[i].iso2 === countryIso2) {
+            // Country exists in local storage
+            countryExists = true;
+        }
+    }
+
+    // If the country does not exist then push on to the array
+    if (!countryExists) {
+        let countryStat = {
+            name: "",
+            iso2: countryIso2,
+            flag: "",
+            selected: false,
+            covidTs: [], // A rolling list of 30 numbers for historical purposes
+            todayCases: [], // A rolling list of 30 numbers for historical purposes
+            totalCases: [], // A rolling list of 30 numbers for historical purposes
+            totalCasesPerMillion: [],
+            travelTs: [], // A rolling list of 30 numbers for historical purposes
+            travelScore: [], // A rolling list of 30 numbers for historical purposes
+        };
+
+        countryStats.push(countryStat);
+    }
+
+    // Write data to local storage
+    writeLocalStorage(countryStats);
+}
 
 /**
- * ! COVID-19 data query
- * << Carol to build out and document >>
+ * ! Fetch COVID-19 data from disease.sh service and update the object countryStats
  */
+function refreshCovidData() {
+    var casesUrl = "https://disease.sh/v3/covid-19/countries";
 
-function refreshCovidData(countryStat) {
-    var casesUrl = 'https://disease.sh/v3/covid-19/countries';
+    // Read local storage data
+    let countryStats = readLocalStorage();
 
     fetch(casesUrl)
         .then(function (response) {
             return response.json();
         })
         .then(function (data) {
-            console.log(data);
-            for (i = 0; i < countryStat.length; i++) {
-                for (j=0;j<data.length;j++) {
-                    if (countryStat[i].iso2 == data[j].countryInfo.iso2) {
-                        if (countryStat.flag = '') {
-                            countryStat[i].flag = data[j].countryInfo.flag;
+            // console.log(data);
+            for (i = 0; i < countryStats.length; i++) {
+                for (j = 0; j < data.length; j++) {
+                    if (countryStats[i].iso2 == data[j].countryInfo.iso2) {
+                        if (countryStats[i].flag === "") {
+                            countryStats[i].flag = data[j].countryInfo.flag;
                         }
-                        countryStat[i].covidTs.unshift(data[j].updated)
-                        countryStat[i].todayCases.unshift(data[j].todayCases);
-                        countryStat[i].totalCases.unshift(data[j].cases);
-                        countryStat[i].totalCasesPerMillion.unshift(data[j].casesPerOneMillion);
+                        countryStats[i].name = data[j].country;
+                        countryStats[i].covidTs.unshift(data[j].updated);
+                        countryStats[i].todayCases.unshift(data[j].todayCases);
+                        countryStats[i].totalCases.unshift(data[j].cases);
+                        countryStats[i].totalCasesPerMillion.unshift(
+                            data[j].casesPerOneMillion
+                        );
                     }
                 }
-
             }
+        })
+        .then(function () {
+            // Write results to local storage
+            writeLocalStorage(countryStats);
+        })
+        .then(function () {
+            // Layer in the travel safety data with the COVID-19 data
+            addTravelData();
         });
-        return countryStat;
-
 }
 
 /**
- * ! Travel safety data query
- * << Quin to build out and document >>
+ * ! Function to be called once upon page load to cache data to local storage
  */
-function refreshTravelSafetyData() {}
+function refreshTravelSafetyData() {
+    // Generate URL to get country travel safety data
+    const apiUrl = "https://www.travel-advisory.info/api";
+
+    // Fetch all country data and cache to local storage (per the APIs request)
+    fetch(apiUrl).then(function (response) {
+        if (response.ok) {
+            response.json().then(function (travelData) {
+                localStorage.setItem(
+                    "travelData",
+                    JSON.stringify(travelData.data)
+                );
+                // Parse the travel data for usage in app
+                //parseTravelData();
+
+                console.log("SUCCESS: Travel safety data successfully fetched");
+            });
+        } else {
+            console.log("FAILURE: Safety data successfully fetched");
+        }
+    });
+}
+
+/**
+ * ! Function to layer in the travel safety data with the COVID-19 data
+ */
+function addTravelData() {
+    // Fetch locally stored country travel data
+    let travelData = JSON.parse(localStorage.getItem("travelData"));
+
+    // Read local storage data
+    let countryStats = readLocalStorage();
+
+    // Fill object with country data
+    for (let i = 0; i < countryStats.length; i++) {
+        // Get the ISO2 code
+        const countryIso2 = countryStats[i].iso2;
+
+        // Convert to epoch time
+        let tempDate =
+            new Date(travelData[countryIso2].advisory.updated).valueOf() / 1000;
+
+        // Set the respective values in the object
+        countryStats[i].travelTs.unshift(tempDate);
+        countryStats[i].travelScore.unshift(
+            travelData[countryIso2].advisory.score
+        );
+    }
+
+    // Write results to local storage
+    writeLocalStorage(countryStats);
+}
 
 /**
  * ! Update page
@@ -60,8 +149,7 @@ function refreshTravelSafetyData() {}
 function updatePage() {}
 
 /**
- *  ! Read local storage
- * Reads from local storage and updates the countryData object that can be used by other functions
+ * ! Reads from local storage and updates the countryData object that can be used by other functions
  */
 function readLocalStorage() {
     // Fetch data from local storage and save in local variable
@@ -71,11 +159,9 @@ function readLocalStorage() {
 }
 
 /**
- * ! Update local storage
- * Writes to local storage from the countryData object
+ * ! Writes to local storage from the countryData object
  */
 function writeLocalStorage(countryStats) {
-
     // Write to local storage
     localStorage.setItem("countryStats", JSON.stringify(countryStats));
 }
@@ -84,52 +170,16 @@ function writeLocalStorage(countryStats) {
  * ! Initialization function
  */
 function init() {
-    // Read local storage data
-    countryStats = readLocalStorage();
+    // TODO - temporary - add a country to countryStats in local storage
+    addCountry("US");
 
-    // TODO - Remove (for testing purposes only)
-    if (storedData) {
-        for (let i = 0; i < storedData.length; i++) {
-            console.log(storedData[i].name);
-        }
-    } else {
-        console.log("No country data is locally available");
-    }
+    // Pull latest travel safety data and update local
+    refreshTravelSafetyData(); // Comment out when testing
 
-    // Pull the latest COVID 19 data
-    countryStats = refreshCovidData(countryStats);
-
-    // Pull the latest travel safety data
-    countryStats = refreshTravelSafetyData(countryStats);
-
-    //TODO - Remove (for testing purposes only)
-   countryStats = [
-       {
-           name: "United States",
-           iso2: "US",
-           flag: "https://disease.sh/assets/img/flags/us.png",
-           selected: true,
-           covidTs: [1648568439677], // A rolling list of 30 numbers for historical purposes
-           todayCases: [123], // A rolling list of 30 numbers for historical purposes
-           totalCases: [123123], // A rolling list of 30 numbers for historical purposes
-           travelTs: [1648568439677], // A rolling list of 30 numbers for historical purposes
-           travelScore: [3.5], // A rolling list of 30 numbers for historical purposes
-       },
-       {
-           name: "Albania",
-           iso2: "AL",
-           flag: "https://disease.sh/assets/img/flags/al.png",
-           selected: true,
-           covidTs: [1648568439677], // A rolling list of 30 numbers for historical purposes
-           todayCases: [123], // A rolling list of 30 numbers for historical purposes
-           totalCases: [123123], // A rolling list of 30 numbers for historical purposes
-           travelTs: [1648568439677], // A rolling list of 30 numbers for historical purposes
-           travelScore: [2.5], // A rolling list of 30 numbers for historical purposes
-       },
-   ];
-    
-    // Write local storage data
-    writeLocalStorage(countryStats);
+    // Pull the latest COVID-19 data and update countryStats
+    // This function all executes the addTravelData function. This was
+    // added to ensure that all local storage writes have completed.
+    refreshCovidData();
 
     // Update the page
     updatePage();
