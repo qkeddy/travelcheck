@@ -1,14 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Lato&family=Montserrat&family=Oswald&family=Raleway&family=Roboto&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="./assets/css/style.css">
 </head>
+
 <body>
-    <h1>TravelCheck Home Page</h1>
+    <header>
+        <div class="flex-row align-center">
+            <img src="assets/images/travelcheck-white.svg" height="50" width="50" />
+            <h1>TravelCheck</h1>
+        </div>
+
+    </header>
+
+    <main class="flex-row">
+        <aside class="col-3 flex-column">
+            <form class="mdc-card mdc-card--outlined">
+
+                <select name="countryList" id="countryList">
+                    <optgroup label="">
+                        <option value=""></option>
+                    </optgroup>
+                </select>
+
+                <button class="mdc-button mdc-button--raised" type="sumbit">
+                    <span class="mdc-button__label">Submit</span>
+                </button>
+            </form>
+            <ul class="mdc-list mdc-card" id="savedQueries">
+                <li class="mdc-list-item">
+                    <span class="mdc-list-item__ripple"></span>
+                    <span class="mdc-list-item__text"></span>
+                </li>
+            </ul>
+        </aside>
+        <section class="flex-column col-9 mdc-card mdc-card--outlined">
+            <h3>
+                Country Name: <span id="countryName"></span>
+            </h3>
+            <img src="" width="" height="" id="flagImage" /> 
+            <p>
+                Covid Cases per million: <span id="casesPerMil"></span>
+            </p>
+            <p>
+                Number of Travel Advisories: <span id="advisoryNum"></span>
+            </p>
+            <p>
+                Reccomendation: <span id="countryName"></span>
+            </p>
+        </section>
+    </main>
+
+    <section>
+
+    </section>
+
+    <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
     <script src="./assets/js/script.js"></script>
 </body>
+
 </html>
