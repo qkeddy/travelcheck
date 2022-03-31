@@ -180,6 +180,7 @@ function updateData(iso2) {
     var countryData = readLocalStorage();
     for (i=0; i <countryData.length; i++) {
         if (countryData[i].iso2 == iso2) {
+            datef.textContent = moment.unix(day.dt).format('MM-DD-YYYY')
             countryNameEl.textContent = countryData[i].name;
             flagEl.setAttribute('src', countryData[i].flag);
             casesPerMilEl.textContent = countryData[i].totalCasesPerMillion[0];
