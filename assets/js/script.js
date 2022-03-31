@@ -148,8 +148,6 @@ function updatePage() {}
 
 function populateList() {
 
-    var countryList = document.getElementById('#countryList')
-
     var casesUrl = "https://disease.sh/v3/covid-19/countries"
 
     fetch(casesUrl)
